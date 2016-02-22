@@ -22,6 +22,9 @@ class GameScene: SKScene {
     // To Accommodate iPhone 6
     var scaleFactor: CGFloat!
     
+    // Tap To Start node
+    let tapToStartNode = SKSpriteNode(imageNamed: "TapToStart")
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -44,9 +47,19 @@ class GameScene: SKScene {
         foregroundNode = SKNode()
         addChild(foregroundNode)
         
+        // HUD
+        hudNode = SKNode()
+        addChild(hudNode)
+        
         // Add the player
         player = createPlayer()
         foregroundNode.addChild(player)
+        
+        // Tap to Start
+        tapToStartNode.position = CGPoint(x: self.size.width / 2, y: 180.0)
+        hudNode.addChild(tapToStartNode)
+        
+        
     }
     
     func createBackgroundNode() -> SKNode {
@@ -85,7 +98,7 @@ class GameScene: SKScene {
         // 1
         playerNode.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
         // 2
-        playerNode.physicsBody?.dynamic = true
+        playerNode.physicsBody?.dynamic = false //We will change it when the start button is pressed
         // 3
         playerNode.physicsBody?.allowsRotation = false
         // 4
@@ -95,5 +108,24 @@ class GameScene: SKScene {
         playerNode.physicsBody?.linearDamping = 0.0
         
         return playerNode
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        // 1
+        // If we're already playing, ignore touches
+        if player.physicsBody!.dynamic {
+            return
+        }
+        
+        // 2
+        // Remove the Tap to Start node
+        tapToStartNode.removeFromParent()
+        
+        // 3
+        // Start the player by putting them into the physics simulation
+        player.physicsBody?.dynamic = true
+        
+        // 4
+        player.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 20.0))
     }
 }
