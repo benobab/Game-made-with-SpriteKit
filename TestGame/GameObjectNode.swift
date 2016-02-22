@@ -6,8 +6,16 @@
 //  Copyright © 2016 Benobab. All rights reserved.
 //
 
-import UIKit
+import SpriteKit
 
 class GameObjectNode: SKNode {
-
+    func collisionWithPlayer(player: SKNode) -> Bool {
+        return false
+    }
+    
+    func checkNodeRemoval(playerY: CGFloat) {
+        if playerY > self.position.y + 300.0 {
+            self.removeFromParent()
+        }
+    }
 }

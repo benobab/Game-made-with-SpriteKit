@@ -128,4 +128,25 @@ class GameScene: SKScene {
         // 4
         player.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 20.0))
     }
+    
+    func createStarAtPosition(position: CGPoint) -> StarNode {
+        // 1
+        let node = StarNode()
+        let thePosition = CGPoint(x: position.x * scaleFactor, y: position.y)
+        node.position = thePosition
+        node.name = "NODE_STAR"
+        
+        // 2
+        var sprite: SKSpriteNode
+        sprite = SKSpriteNode(imageNamed: "Star")
+        node.addChild(sprite)
+        
+        // 3
+        node.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
+        
+        // 4
+        node.physicsBody?.dynamic = false
+        
+        return node
+    }
 }
