@@ -50,6 +50,9 @@ class GameScene: SKScene {
         // HUD
         hudNode = SKNode()
         addChild(hudNode)
+        // Add a star
+        let star = createStarAtPosition(CGPoint(x: 160, y: 220))
+        foregroundNode.addChild(star)
         
         // Add the player
         player = createPlayer()
